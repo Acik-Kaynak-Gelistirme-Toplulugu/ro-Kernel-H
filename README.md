@@ -6,6 +6,6 @@ Bu repo, Fedora 43 için özelleştirilmiş 6.8.10 kernel kaynaklarını ve spec
 - **COPR Projesi:** [https://copr.fedorainfracloud.org/coprs/hynkzz/ro-Kernel-H/]
 ## Kurulum
 ```bash
-sudo dnf copr enable hynkzz/ro-kernel-H
+sudo dnf copr enable hynkzz/ro-Kernel-H
 sudo dnf upgrade kernel
 ```
