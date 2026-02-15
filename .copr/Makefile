@@ -1,41 +1,37 @@
 # .copr/Makefile
-
-# 1. Spec dosyasindan tam versiyonu al
 SPEC_VER := $(shell grep -m1 "%define specrpmversion" specs/kernel.spec | awk '{print $$3}')
-
-# 2. Ana versiyonu al
 BASE_VER := $(shell echo $(SPEC_VER) | cut -d. -f1,2)
 
-# Fedora GitLab URL
-ARK_URL := https://gitlab.com/ckievit/kernel-ark/-/raw/os-build
+# Fedora Resmi Dist-Git URL'si (Herkese Açık)
+FEDORA_URL := https://src.fedoraproject.org/rpms/kernel/raw/rawhide/f
 
 srpm:
+	# 1. gerekli araclari kur
 	dnf install -y rpmdevtools wget awk grep
 
-	# Dosyalari duzelt
+	# 2. dosyalari hazirla
 	cp configs/* .
 	cp scripts/* .
 	cp certs/* .
 	cp specs/* . || true
-	# Varsa yerel yamalari kopyala
 	mkdir -p patches
-	cp patches/* . || true
 
-
-
-	# Ana Kernel Tarball
+	# 3. tarball kernel
 	wget -N https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$(SPEC_VER).tar.xz
 
-	# Red Hat Yamasi
-	wget -N $(ARK_URL)/patch-$(BASE_VER)-redhat.patch || echo "Redhat patch cannot found"
+	# 4. eksik dosyalar
+	for file in mod-denylist.sh def_variants.yaml.rhel def_variants.yaml.fedora \
+	           generate_all_configs.sh kernel.sbat.template kvm_stat.logrotate \
+	           kernel-local README.rst rpminspect.yaml x509.genkey.fedora; do \
+		wget -N $(FEDORA_URL)/$$file || echo "$$file bulunamadı, devam ediliyor..."; \
+	done
 
-	# kABI Stablelists
-	wget -N $(ARK_URL)/kernel-abi-stablelists-$(SPEC_VER).tar.xz || echo "kABI cannot found."
+	# 5. yamalari indir
+	wget -N $(FEDORA_URL)/patch-$(BASE_VER)-redhat.patch || echo "Redhat patch cannot found."
+	wget -N $(FEDORA_URL)/linux-kernel-test.patch || echo "Test patch cannot found."
+	wget -N $(FEDORA_URL)/kernel-abi-stablelists-$(SPEC_VER).tar.xz || echo "kABI list cannot found."
 
-	# Test Yamasi
-	wget -N $(ARK_URL)/linux-kernel-test.patch || echo "Test patch cannot found."
-
-	# SRPM olustur
+	# 6. SRPM olustur
 	rpmbuild -bs \
 		--define "_sourcedir $(PWD)" \
 		--define "_srcrpmdir $(outdir)" \
