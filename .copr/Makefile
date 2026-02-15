@@ -13,9 +13,9 @@ srpm:
 
 	wget -N https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$(SPEC_VER).tar.xz
 
-	for file in mod-denylist.sh def_variants.yaml.rhel def_variants.yaml.fedora \
-	           generate_all_configs.sh kernel.sbat.template kvm_stat.logrotate \
-	           kernel-local README.rst rpminspect.yaml x509.genkey.fedora merge.py; do \
+	for file in mod-denylist.sh def_variants.yaml.rhel  \
+	           kernel.sbat.template kvm_stat.logrotate \
+	           README.rst rpminspect.yaml x509.genkey.fedora merge.py; do \
 		wget -N $(FEDORA_URL)/$$file || echo "$$file bulunamadı."; \
 	done
 
