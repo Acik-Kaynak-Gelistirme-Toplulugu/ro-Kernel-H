@@ -2162,9 +2162,12 @@ for i in *.config; do
 done
 %endif
 
+%global allow_errors 1
+OPTS="-w -n -c"
+
 %{log_msg "Set process_configs.sh $OPTS"}
 cp %{SOURCE81} .
-OPTS="-w -n -c"
+
 %if !%{with_configchecks}
 	OPTS="$OPTS -i"
 %endif
