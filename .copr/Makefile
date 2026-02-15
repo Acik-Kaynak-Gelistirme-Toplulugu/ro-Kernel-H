@@ -15,9 +15,11 @@ srpm:
 
 	for file in mod-denylist.sh def_variants.yaml.rhel def_variants.yaml.fedora \
 	           generate_all_configs.sh kernel.sbat.template kvm_stat.logrotate \
-	           kernel-local README.rst rpminspect.yaml x509.genkey.fedora; do \
-		wget -N $(FEDORA_URL)/$$file || echo "$$file bulunamadı, devam ediliyor..."; \
+	           kernel-local README.rst rpminspect.yaml x509.genkey.fedora merge.py; do \
+		wget -N $(FEDORA_URL)/$$file || echo "$$file bulunamadı."; \
 	done
+
+	chmod +x *.sh *.py
 
 	rpmbuild -bs \
 		--define "_sourcedir $(PWD)" \

@@ -172,7 +172,7 @@ Summary: The Linux kernel
 #  to build the base kernel using the debug configuration. (Specifying
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
-%define buildid roasd
+%define buildid .roasd
 %define specrpmversion 6.18.10
 %define specversion 6.18.10
 %define patchversion 6.18
@@ -640,9 +640,9 @@ Summary: The Linux kernel
 
 # We only build kernel-headers on the following...
 %if 0%{?fedora}
-%define nobuildarches i386
+%define nobuildarches i386 s390x aarch64 ppc64le riscv64
 %else
-%define nobuildarches i386 i686
+%define nobuildarches i386 i686 s390x aarch64 ppc64le riscv64
 %endif
 
 %ifarch %nobuildarches
