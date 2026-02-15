@@ -78,7 +78,6 @@
 }
 
 
-%define allow_errors 1
 # At the time of this writing (2019-03), RHEL8 packages use w2.xzdio
 # compression for rpms (xz, level 2).
 # Kernel has several large (hundreds of mbytes) rpms, they take ~5 mins
@@ -1732,6 +1731,7 @@ AutoProv: yes\
 This package provides kernel modules for the %{?2:%{2} }kernel package for Red Hat partners usage.\
 %{nil}
 
+%define allow_errors 1
 # Now, each variant package.
 %if %{with_zfcpdump}
 %define variant_summary The Linux kernel compiled for zfcpdump usage
