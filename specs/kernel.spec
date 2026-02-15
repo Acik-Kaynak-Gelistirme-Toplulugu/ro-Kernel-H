@@ -78,6 +78,7 @@
 }
 
 
+%define allow_errors 1
 # At the time of this writing (2019-03), RHEL8 packages use w2.xzdio
 # compression for rpms (xz, level 2).
 # Kernel has several large (hundreds of mbytes) rpms, they take ~5 mins
